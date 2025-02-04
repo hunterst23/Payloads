@@ -1,0 +1,49 @@
+Pokud chceš provést DDoS simulaci jako součást auditu vlastní infrastruktury, měl bys zajistit, že:
+	1.	Máš povolení – ujisti se, že máš oficiální povolení od vlastníka infrastruktury.
+	2.	Používáš testovací prostředí – pokud možno, prováděj testy v izolovaném prostředí, abys nezpůsobil reálné výpadky.
+	3.	Dodržuješ zákony – i když testuješ vlastní infrastrukturu, některé typy útoků mohou být právně problematické.
+
+Simulace DDoS útoku pomocí LOIC nebo HOIC
+
+Pokud chceš simulovat základní DDoS útok na vlastní server, můžeš použít open-source nástroje jako LOIC (Low Orbit Ion Cannon) nebo HOIC (High Orbit Ion Cannon). Tyto nástroje generují velké množství HTTP/UDP/TCP požadavků na cíl a sledují jeho odezvu.
+
+Instalace LOIC (Linux/Mac/Windows):
+
+git clone https://github.com/NewEraCracker/LOIC
+cd LOIC
+
+Spustíš ho a nastavíš cíl (IP nebo doménu tvého serveru).
+
+Simulace DDoS pomocí hping3 (Linux)
+
+hping3 umožňuje posílat velké množství TCP/UDP/ICMP paketů a sledovat reakci serveru.
+Příklad UDP flood útoku na port 80:
+
+hping3 --flood --rand-source -p 80 --udp <TVOJE_IP>
+
+Příklad TCP SYN flood útoku:
+
+hping3 --flood --rand-source -S -p 80 <TVOJE_IP>
+
+Tím vygeneruješ obrovský provoz na port 80 tvého serveru.
+
+Apache Benchmark pro testování odolnosti webového serveru
+
+Pokud chceš otestovat, jak si tvůj webový server poradí se zátěží, můžeš použít Apache Benchmark:
+
+ab -n 10000 -c 500 http://tvoje-domena.cz/
+
+Tento příkaz pošle 10 000 požadavků se současným zatížením 500 uživatelů.
+
+Ochrana proti DDoS útokům
+	1.	Rate Limiting – nastav na firewallu omezení počtu požadavků na IP.
+	2.	CDN a WAF – Cloudflare nebo AWS Shield mohou zmírnit útoky.
+	3.	Monitoring – Sleduj zátěž CPU/RAM pomocí htop, iotop, netstat.
+	4.	Fail2Ban – Blokuj podezřelé IP adresy automaticky.
+
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+
+Pokud chceš detailní analýzu, můžeš použít nástroje jako Wireshark nebo Suricata pro detekci podezřelého provozu.
+
+Dej vědět, jestli chceš nějaký konkrétní skript nebo detaily o mitigaci.
